@@ -1,0 +1,10 @@
+# ICLR double-blind: do not collect visitor or usage statistics.
+# Streamlit Community Cloud forces gatherUsageStats=true and is not a safe
+# review host. Serve this app from a host that honors this setting.
+
+[browser]
+gatherUsageStats = false
+
+[client]
+toolbarMode = "minimal"
+showErrorDetails = "none"

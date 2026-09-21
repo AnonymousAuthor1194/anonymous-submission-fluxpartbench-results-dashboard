@@ -1,0 +1,4 @@
+# Paths used by the Streamlit dashboard. Values are relative to this file.
+results: ../results
+pulses: ../data/pulses
+meta_info: ../data/meta_information/fluxtower_meta.csv
