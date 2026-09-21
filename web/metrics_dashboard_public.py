@@ -202,17 +202,8 @@ METHOD_INFO = {
         "Reference: Reference: Cohrs, K.-H., Varando, G., Carvalhais, N., Reichstein, M., & Camps-Valls, G. (2024). Causal hybrid modeling with double machine learning—applications in carbon flux modeling. Machine Learning: Science and Technology, 5(3), 035021. doi:10.1088/2632-2153/ad5a60."
     ),
 
-    "NN": (
-        "Neural Network approach (NN) — Tramontana et al. (2020). "
-        "Data-driven neural networks (NN C-part) are trained on both day and night half-hourly NEE and auxiliary drivers (radiation, temperature, VPD, soil moisture, etc.) "
-        "to simultaneously predict GPP and Reco under a consistency constraint (GPP − Reco = −NEE). NNs capture complex, nonlinear dependencies and can outperform simple "
-        "parametric fits where relationships are nonlinear or site-specific, but they require ample training data and careful design to enforce physical consistency, "
-        "avoid overfitting, and ensure generalization. \n\n"
-        "Reference: Tramontana, G., Migliavacca, M., Jung, M., Reichstein, M., Keenan, T. F., Camps-Valls, G., Ogee, J., Verrelst, J., Papale, D., et al. (2020). Partitioning net carbon dioxide fluxes into photosynthesis and respiration using neural networks. Global Change Biology, 26(9), 5235–5253. doi:10.1111/gcb.15203."
-    ),
-
     "NNWW": (
-        "Neural Network (NNWW) — Zhan et al. (2022) style approach. "
+        "Neural Network ($NN_{night}$) — Zhan et al. (2022) style approach. "
         "ML/NN frameworks that extend Tramontana et al. by including additional data streams (e.g., solar-induced chlorophyll fluorescence, SIF) or multi-task objectives "
         "to jointly retrieve GPP and Reco and to constrain the GPP–SIF relationship to improve GPP estimates and reduce ambiguity in partitioning, especially across ecosystems with differing light-use characteristics. "
         "Here we only use the architecture with SIF which is not available at all sites; it does not assume an explicit LUE model for GPP. \n\n"
@@ -221,29 +212,33 @@ METHOD_INFO = {
 
     # short description for common NN modulations you mentioned
     "NN3": (
-        "Neural Network (NN3) — Tramontana et al. (2020) style approach but trained longer / more thoroughly. \n\n"
+        "Neural Network approach ($NN_{base}$) — Tramontana et al. (2020). "
+        "Data-driven neural networks (NN C-part) are trained on both day and night half-hourly NEE and auxiliary drivers (radiation, temperature, VPD, soil moisture, etc.) "
+        "to simultaneously predict GPP and Reco under a consistency constraint (GPP − Reco = −NEE). NNs capture complex, nonlinear dependencies and can outperform simple "
+        "parametric fits where relationships are nonlinear or site-specific, but they require ample training data and careful design to enforce physical consistency, "
+        "avoid overfitting, and ensure generalization. \n\n"
+        "Reference: Tramontana, G., Migliavacca, M., Jung, M., Reichstein, M., Keenan, T. F., Camps-Valls, G., Ogee, J., Verrelst, J., Papale, D., et al. (2020). Partitioning net carbon dioxide fluxes into photosynthesis and respiration using neural networks. Global Change Biology, 26(9), 5235–5253. doi:10.1111/gcb.15203."
+    ),
+    "NNL1": (
+        "Neural Network ($NN_{L1}$) — Tramontana et al. (2020) style approach trained longer and using L1 loss for robust residual behaviour. \n\n"
         "Reference: - "
     ),
     "NNKGREGL1": (
-        "Neural Network (NNKGREGL1) — Tramontana et al. (2020) style approach with a knowledge-guided regularization loss that encourages RECO to stay close to nighttime-method estimates (helps preserve a realistic daily cycle). Uses an L1 loss and extended training. \n\n"
-        "Reference: - "
-    ),
-    "NNL1": (
-        "Neural Network (NNL1) — Tramontana et al. (2020) style approach trained longer and using L1 loss for robust residual behaviour. \n\n"
+        "Neural Network ($NN_{KG}$) — Tramontana et al. (2020) style approach with a knowledge-guided regularization loss that encourages RECO to stay close to nighttime-method estimates (helps preserve a realistic daily cycle). Uses an L1 loss and extended training. \n\n"
         "Reference: - "
     ),
     "NNPREL1": (
-        "Neural Network (NNPREL1) — Tramontana et al. (2020) style approach with pretraining on the five-year window centred on the year being partitioned, then fine-tuning on the target year; uses L1 loss and longer training. Pretraining can improve generalization and stability for short target-year data. \n\n"
+        "Neural Network ($NN_{PT}$) — Tramontana et al. (2020) style approach with pretraining on the five-year window centred on the year being partitioned, then fine-tuning on the target year; uses L1 loss and longer training. Pretraining can improve generalization and stability for short target-year data. \n\n"
         "Reference: - "
     ),
     "NNMRL1": (
-        "Neural Network (NNMRL1) — Tramontana et al. (2020) style approach augmented with engineered features (e.g., NEE_SWin_lowlight_lm_slope, NEE_LUE_at_max_SW, NEE_light_night_diff, NEE_night_movmean, TS_night_movmean, TA_night_movmean) and L1 loss; trained longer. Feature engineering can help the NN capture diel/seasonal patterns and reduce overfitting. \n\n"
+        "Neural Network ($NN_{FE}$) — Tramontana et al. (2020) style approach augmented with engineered features (e.g., NEE_SWin_lowlight_lm_slope, NEE_LUE_at_max_SW, NEE_light_night_diff, NEE_night_movmean, TS_night_movmean, TA_night_movmean) and L1 loss; trained longer. Feature engineering can help the NN capture diel/seasonal patterns and reduce overfitting. \n\n"
         "Reference: - "
     ),
-    "NNFULL": (
-        "Neural Network (NNFULL) — Tramontana et al. (2020) style approach that combines pretraining and knowledge-guided regularization; uses L1 loss and extended training. Intended to leverage both data-driven flexibility and process constraints to improve realism. \n\n"
-        "Reference: - "
-    ),
+    # "NNFULL": (
+    #     "Neural Network ($NN_{Full}$) — Tramontana et al. (2020) style approach that combines pretraining and knowledge-guided regularization; uses L1 loss and extended training. Intended to leverage both data-driven flexibility and process constraints to improve realism. \n\n"
+    #     "Reference: - "
+    # ),
 }
 
 
@@ -4080,7 +4075,7 @@ def show_method_info(methods: List[str]) -> None:
         # Sort methods according to priority order
         sorted_methods = sort_methods(available_methods)
         for method in sorted_methods:
-            st.markdown(f"#### {method}")
+            st.markdown(f"#### {method_plot_label(method)}")
             st.markdown(METHOD_INFO[method])
             st.markdown("---")
 
